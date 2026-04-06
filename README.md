@@ -9,7 +9,8 @@ Input SVG/PDF file that a Sisyphus table will draw out.
 # Components
 - ESP32S
 - 2 NEMA17 Stepper Motor
-
+# Limitations and Drawbacks
+- Texts in svgs are a little more complex to break down into paths, they require font rendering, the work around to this is using Inkscape Object to Path
 # Errors Faced
 - <img width="597" height="428" alt="image" src="https://github.com/user-attachments/assets/858ea21f-223c-4a8e-8d11-70945c5f21eb" />
 - Standard svg considers top left as the origin. This is terrible for polar which is relative to origin
@@ -22,4 +23,3 @@ Input SVG/PDF file that a Sisyphus table will draw out.
         print("group transform:", t)
 - <img width="809" height="57" alt="image" src="https://github.com/user-attachments/assets/fdf9a764-6cbc-4240-a952-9a5e41437982" />
 - it confirmed that Inkscape was scaling their pixels to a mm canvas by exactly 3.77953
-

@@ -1,8 +1,9 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
+#include <FastAccelStepper.h>
 
 #define FULL_RAIL_STEP 200 //200 steps to travel the entire rail
-#define STEPS_PER_REV 200 //native to the nema17, steps per rev is useful cos theta is based off 2pi
+#define DEG_PER_STEP 1.8 //native to NEMA17, check datasheet, mine is 1.8 deg per step
 
 
 enum motorPos {IDLE, MOVING, ESTOP} state, prevState;
@@ -11,10 +12,12 @@ AccelStepper railStepper (AccelStepper::DRIVER, 6, 5);
 
 void moveToPos(float r, float theta)
 {
-    thetaStepper.moveTo((theta/(2 * PI) * STEPS_PER_REV)); //converts theta radians to revolutions and multiples it by steps per rev to get steps
+    thetaStepper.moveTo(theta / DEG_PER_STEP); //converts theta deg to steps by dividing deg per step
     railStepper.moveTo(r * FULL_RAIL_STEP); //scales r ratio to the steps for the full rail
     thetaStepper.setAcceleration(500);
+    thetaStepper.setMaxSpeed(1500);
     railStepper.setAcceleration(500);
+    railStepper.setMaxSpeed(1500);
     thetaStepper.run();
     railStepper.run();
 }
@@ -33,6 +36,5 @@ void setup() {
 }
 
 void loop() {
-    moveToPos(.8, PI);
-    
+    moveToPos(.8, 180);
 }

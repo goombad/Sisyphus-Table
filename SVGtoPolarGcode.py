@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from svgelements import SVG, Shape, Path, Group
+from svgelements import SVG, Shape, Path, Group, Text
 #inkscape creates everything in pixel but scales it to mm when we save it as svg, so have to convert back to px.
 scale = 3.7795275591 #pixels per mm, 96 dpi, 25.4 mm per inch, so 96/25.4 = 3.7795 pixels per mm
 
@@ -25,7 +25,7 @@ canvas_rad = min(documentSize.width, documentSize.height)/2*scale #radius of the
 #uses min of both width and height to get the smallest inscribed circle, and then divide by 2 to get radius
 
 for element in svg.elements(): #goes through everything in the svg, all paths, circles, lines
-    if isinstance(element, Shape): #filters only drawable shapes, ignores metadata, groups, etc
+    if isinstance(element, (Shape, Text)): #filters only drawable shapes, ignores metadata, groups, etc
         count += 1
         path = Path(element) #no matter what the shape was, convert it to a path, so we can sample points along it. 
         # **returns pixels ONLY

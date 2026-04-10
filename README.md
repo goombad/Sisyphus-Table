@@ -5,6 +5,8 @@ Input SVG/PDF file that a Sisyphus table will draw out.
 - Converts SVG file into XY coordinates using svgelements python lib
 - r = sqrt(x^2 + y^2)
 - theta = arctan2(y, x) ranges -pi/2 to pi/2
+# Motor Code Simulation
+[text](https://app.cirkitdesigner.com/project/955bfc93-79c5-464a-bd6c-9f713e657ab0)
 
 # Components
 - 1x ESP32S (can be any microcontroller)
@@ -26,7 +28,7 @@ Input SVG/PDF file that a Sisyphus table will draw out.
 - I was running into multiple problems with a bounding box center debug not matching my document center and the fact that I was expecting theta_unwrapped to be -pi to pi for a circle at the origin but was getting random theta ranges that werent indicative of a circle centered at the origin.
 - After parsing the group transform with
 -     if isinstance(element, Group):
-        t = element.transform 
+        t = element.transform -
         print("group transform:", t)
 - <img width="809" height="57" alt="image" src="https://github.com/user-attachments/assets/fdf9a764-6cbc-4240-a952-9a5e41437982" />
 - it confirmed that Inkscape was scaling their pixels to a mm canvas by exactly 3.77953

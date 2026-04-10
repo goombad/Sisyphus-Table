@@ -5,8 +5,8 @@ Input SVG/PDF file that a Sisyphus table will draw out.
 - Converts SVG file into XY coordinates using svgelements python lib
 - r = sqrt(x^2 + y^2)
 - theta = arctan2(y, x) ranges -pi/2 to pi/2
-# Motor Code Simulation
-[text](https://app.cirkitdesigner.com/project/955bfc93-79c5-464a-bd6c-9f713e657ab0)
+# Circuit Schematic/Simulation
+[Schematic Link in Cirkit Designer](https://app.cirkitdesigner.com/project/955bfc93-79c5-464a-bd6c-9f713e657ab0)
 
 # Components
 - 1x ESP32S (can be any microcontroller)

@@ -7,8 +7,15 @@ Input SVG/PDF file that a Sisyphus table will draw out.
 - theta = arctan2(y, x) ranges -pi/2 to pi/2
 
 # Components
-- ESP32S
-- 2 NEMA17 Stepper Motor
+- 1x ESP32S (can be any microcontroller)
+- 2x NEMA17 42mm x 42mm x 48mm (12V 2A PER)
+- 2x A4988 Stepper Motor Driver
+- 2x KW 12-1 Limit Switch
+- 1x 12VDC 5A Power Supply Barrel Jack Adapter
+- 1x Big Bearing
+- 1x 8-wire Slip Ring (so wires don't get tangled)
+- 1x Bucket of Sand
+- 1x Custom Table 
 # Limitations and Drawbacks
 - Texts in svgs are a little more complex to break down into paths, they require font rendering, the work around to this is using Inkscape Object to Path
 # Errors Faced

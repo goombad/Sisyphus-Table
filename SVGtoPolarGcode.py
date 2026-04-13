@@ -1,5 +1,13 @@
 import math
 import numpy as np
+import serial
+import time 
+
+serial_port = 'COM8' #replace with current serial port
+ser = serial.Serial(serial_port, 115200) #open serial port at baud rate of 115200
+#instantiation of class Serial, takes in port and baud rate, ser is just the name
+time.sleep(2) #waits 2 seconds to establish connection
+
 from svgelements import SVG, Shape, Path, Group, Text
 #inkscape creates everything in pixel but scales it to mm when we save it as svg, so have to convert back to px.
 scale = 3.7795275591 #pixels per mm, 96 dpi, 25.4 mm per inch, so 96/25.4 = 3.7795 pixels per mm
@@ -49,10 +57,10 @@ for x, y in xypoints:
     
     theta = math.atan2(y, x) #arctan of y/x is -pi/2 to pi/2 but atan2 doubles it to -pi to pi
     theta_array.append(theta) #theta is in radians, -pi to pi
-    theta_unwrapped = np.unwrap(theta_array) #unwraps the angles to account for -pi to pi discontinuity
-    theta_degree = np.degrees(theta_unwrapped) #converts to degrees
-    #unwrapping checks between prev theta and theta and if its greater than pi, it adds 2pi to current theta to correct
-    print (f"{r_array[-1]:.2f}, {theta_array[-1]:.2f}, {theta_degree[-1]:.2f}")
+    
+theta_unwrapped = np.unwrap(theta_array) #unwraps the angles to account for -pi to pi discontinuity
+theta_degree = np.degrees(theta_unwrapped) #converts to degrees
+#unwrapping checks between prev theta and theta and if its greater than pi, it adds 2pi to current theta to correct
 print("cx:", cx, "cy:", cy) #raw center of canvas in mm
 print("Total shapes:", count) 
 
@@ -61,3 +69,10 @@ print("circle center from bounds:",
       (min(p[1] for p in xypoints) + max(p[1] for p in xypoints)) / 2)
 print(f"min(theta_array): {min(theta_array):.2f}, max(theta_array): {max(theta_array):.2f}")
 print(f"min(theta_unwrapped): {min(theta_unwrapped):.2f},   max(theta_unwrapped): {max(theta_unwrapped):.2f}")
+
+for normalized_r, theta_deg in zip(r_array, theta_degree): #zip takes two arrays and pairs them
+    #takes in normalized r and theta deg and pairs it like (r1, theta1)
+    positionPacket = f"{normalized_r:.2f} {theta_deg:.2f}\n"
+    ser.write(positionPacket.encode()) #encode converts string to bytes
+    print (f"Sent to serial: r={normalized_r:.2f}, theta={theta_deg:.2f} degrees")
+ser.close() #close serial port when done

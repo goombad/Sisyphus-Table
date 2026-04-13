@@ -1,6 +1,5 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
-#include <FastAccelStepper.h>
 
 #define FULL_RAIL_STEP 200 //200 steps to travel the entire rail
 #define DEG_PER_STEP 1.8 //native to NEMA17, check datasheet, mine is 1.8 deg per step
@@ -10,6 +9,8 @@
 enum motorPos {IDLE, MOVING, ESTOP} state, prevState;
 AccelStepper thetaStepper (AccelStepper::DRIVER, 4, 3); //first argument is an enum type, we're using a4988 so just put driver, step, direciton
 AccelStepper railStepper (AccelStepper::DRIVER, 6, 5);
+
+float r, theta;
 
 void moveToPos(float r, float theta)
 {
@@ -47,10 +48,16 @@ void setup() {
     prevState = ESTOP;
 }
 
-void loop() {
+void loop() 
+{
     if (Serial.available())
     {
-        
+        String packet = Serial.readStringUntil('\n'); // every C string ends with a null terminator, single quotes will read the single character, but "" will read null terminator
+        Serial.print("received: ");
+        Serial.println(packet); 
+        sscanf(packet.c_str(), "%f %f", &r, &theta); //sscanf is string formatted scan from C, %f %f means scan for float variable, &r &theta are the addresses for r and theta
+        //basically pointer version fo scanning and writing to r and theta, passing by reference
+        //fundamental reasoning being that the function can only return one value, so instead it writes into r and theta instead of return
+        moveToPos(r, theta);
     }
-    moveToPos(.8, 180);
 }

@@ -3,8 +3,7 @@ import numpy as np
 import serial
 import time 
 
-serial_port = 'COM8' #replace with current serial port
-ser = serial.Serial(serial_port, 115200) #open serial port at baud rate of 115200
+ser = serial.Serial('COM13', 115200, timeout = 1) #open serial port at baud rate of 115200
 #instantiation of class Serial, takes in port and baud rate, ser is just the name
 time.sleep(2) #waits 2 seconds to establish connection
 
@@ -33,7 +32,7 @@ canvas_rad = min(documentSize.width, documentSize.height)/2*scale #radius of the
 #uses min of both width and height to get the smallest inscribed circle, and then divide by 2 to get radius
 
 for element in svg.elements(): #goes through everything in the svg, all paths, circles, lines
-    if isinstance(element, (Shape, Text)): #filters only drawable shapes, ignores metadata, groups, etc
+    if isinstance(element, (Shape, Text)): #filters ognly drawable shapes, ignores metadata, groups, etc
         count += 1
         path = Path(element) #no matter what the shape was, convert it to a path, so we can sample points along it. 
         # **returns pixels ONLY
@@ -61,14 +60,14 @@ for x, y in xypoints:
 theta_unwrapped = np.unwrap(theta_array) #unwraps the angles to account for -pi to pi discontinuity
 theta_degree = np.degrees(theta_unwrapped) #converts to degrees
 #unwrapping checks between prev theta and theta and if its greater than pi, it adds 2pi to current theta to correct
-print("cx:", cx, "cy:", cy) #raw center of canvas in mm
-print("Total shapes:", count) 
 
-print("circle center from bounds:", 
-      (min(p[0] for p in xypoints) + max(p[0] for p in xypoints)) / 2,
-      (min(p[1] for p in xypoints) + max(p[1] for p in xypoints)) / 2)
-print(f"min(theta_array): {min(theta_array):.2f}, max(theta_array): {max(theta_array):.2f}")
-print(f"min(theta_unwrapped): {min(theta_unwrapped):.2f},   max(theta_unwrapped): {max(theta_unwrapped):.2f}")
+
+#debug IGNORE
+# print("circle center from bounds:", 
+#       (min(p[0] for p in xypoints) + max(p[0] for p in xypoints)) / 2,
+#       (min(p[1] for p in xypoints) + max(p[1] for p in xypoints)) / 2)
+# print(f"min(theta_array): {min(theta_array):.2f}, max(theta_array): {max(theta_array):.2f}")
+# print(f"min(theta_unwrapped): {min(theta_unwrapped):.2f},   max(theta_unwrapped): {max(theta_unwrapped):.2f}")
 
 for normalized_r, theta_deg in zip(r_array, theta_degree): #zip takes two arrays and pairs them
     #takes in normalized r and theta deg and pairs it like (r1, theta1)

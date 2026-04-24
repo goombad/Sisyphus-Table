@@ -76,4 +76,4 @@ for normalized_r, theta_deg in zip(r_array, theta_degree): #zip takes two arrays
     print (f"Sent to serial: r={normalized_r:.2f}, theta={theta_deg:.2f} degrees")
     ack = ser.readline().decode().strip() #waits for acknowledgment from microcontroller, decodes bytes to string and removes whitespace
     print(f"ack | {ack} |") #verifies communication by printing ack
-ser.close() #close serial port when done
+ser.close()
